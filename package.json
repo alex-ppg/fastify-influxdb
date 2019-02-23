@@ -1,0 +1,35 @@
+{
+  "name": "fastify-influxdb",
+  "description": "A Fastify plugin for injecting an InfluxDB instance on the framework",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alex-ppg/fastify-influxdb.git"
+  },
+  "keywords": [
+    "fastify",
+    "api",
+    "influx",
+    "influxdb",
+    "database",
+    "time series"
+  ],
+  "author": "Alex Papageorgiou",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/alex-ppg/fastify-influxdb/issues"
+  },
+  "homepage": "https://github.com/alex-ppg/fastify-influxdb#readme",
+  "dependencies": {
+    "fastify-plugin": "^1.5.0",
+    "influx": "^5.0.7"
+  },
+  "devDependencies": {
+    "fastify": "^1.14.1",
+    "tap": "^12.5.3"
+  }
+}
