@@ -3,11 +3,11 @@
 const fastify = require("fastify")();
 const tap = require("tap");
 const fastifyInfluxDB = require("./index");
-const Influx = require("influx");
-const influx = new Influx.InfluxDB();
+const { InfluxDB } = require("influx");
+const influx = new InfluxDB();
 
 tap.test("fastify influxDB is correctly injected", async test => {
-  test.plan(1);
+  test.plan(4);
 
   // Pre-cursory database creation
   await influx.createDatabase("NOAA_water_database");
@@ -80,8 +80,11 @@ tap.test("fastify influxDB is correctly injected", async test => {
         method: "GET",
         url: "/"
       },
-      (err, res) => {
-        console.log(res);
+      (err, { payload }) => {
+        [fetchedRow] = JSON.parse(payload).rows;
+        test.strictEqual(fetchedRow["level description"], "Medium");
+        test.strictEqual(fetchedRow.location, "athens");
+        test.strictEqual(fetchedRow.water_level, 2.4324);
         fastify.close(() => {
           test.end();
           process.exit(0);
