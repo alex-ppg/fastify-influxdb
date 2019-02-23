@@ -81,7 +81,7 @@ tap.test("fastify influxDB is correctly injected", async test => {
         url: "/"
       },
       (err, { payload }) => {
-        [fetchedRow] = JSON.parse(payload).rows;
+        const [fetchedRow] = JSON.parse(payload).rows;
         test.strictEqual(fetchedRow["level description"], "Medium");
         test.strictEqual(fetchedRow.location, "athens");
         test.strictEqual(fetchedRow.water_level, 2.4324);
