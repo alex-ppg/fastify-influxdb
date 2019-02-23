@@ -5,7 +5,7 @@ const tap = require("tap");
 const fastifyInfluxDB = require("./index");
 
 tap.test("fastify influxDB is correctly injected", async test => {
-  test.plan(4);
+  test.plan(3);
 
   fastify.register(fastifyInfluxDB, {
     host: "localhost",
@@ -80,6 +80,6 @@ tap.test("fastify influxDB is correctly injected", async test => {
     test.strictEqual(fetchedRow.location, "athens");
     test.strictEqual(fetchedRow.water_level, 2.4324);
   } catch (e) {
-    test.error(e);
+    test.fail("Fastify threw", e);
   }
 });
