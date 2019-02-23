@@ -39,7 +39,7 @@ async function influxConnector(
   Influx.instance = influx;
   delete Influx.InfluxDB;
 
-  fastify.decorate("influxdb", influx);
+  fastify.decorate("influxdb", Influx);
 }
 
 module.exports = fastifyPlugin(influxConnector);
