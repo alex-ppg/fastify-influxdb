@@ -7,8 +7,6 @@ const { InfluxDB } = require("influx");
 const influx = new InfluxDB();
 
 tap.test("fastify influxDB is correctly injected", async test => {
-  test.plan(4);
-
   // Pre-cursory database creation
   await influx.createDatabase("NOAA_water_database");
   // End of pre-cursory code
