@@ -86,7 +86,7 @@ This plugin adds an InfluxDB driver made available to all routes via the `decora
 | ---------- | ----------------------------------------------------------------------------------------------------------- |
 | `host`     | Optional, the host to connect to. Defaults to `localhost`                                                   |
 | `hosts`    | Optional, the multiple hosts to connect to. If specified, multi-cluster setup will be passed on to `influx` |
-| `database` | Optional, the database to connect to                                                                        |
+| `database` | Optional, the database to connect to. If the database does not exist, the library will create it.           |
 | `schema`   | Optional, the schema of the database we are connecting to                                                   |
 | `username` | Optional, the username to use for authorization if any                                                      |
 | `password` | Optional, the password to use for authorization if any                                                      |

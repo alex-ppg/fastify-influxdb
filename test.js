@@ -3,13 +3,9 @@
 const fastify = require("fastify")();
 const tap = require("tap");
 const fastifyInfluxDB = require("./index");
-const { InfluxDB } = require("influx");
-const influx = new InfluxDB();
 
 tap.test("fastify influxDB is correctly injected", async test => {
-  // Pre-cursory database creation
-  await influx.createDatabase("NOAA_water_database");
-  // End of pre-cursory code
+  test.plan(4);
 
   fastify.register(fastifyInfluxDB, {
     host: "localhost",
@@ -71,23 +67,19 @@ tap.test("fastify influxDB is correctly injected", async test => {
     });
   });
 
-  fastify.ready(err => {
-    test.error(err);
-    fastify.inject(
-      {
-        method: "GET",
-        url: "/"
-      },
-      (err, { payload }) => {
-        const [fetchedRow] = JSON.parse(payload).rows;
-        test.strictEqual(fetchedRow["level description"], "Medium");
-        test.strictEqual(fetchedRow.location, "athens");
-        test.strictEqual(fetchedRow.water_level, 2.4324);
-        fastify.close(() => {
-          test.end();
-          process.exit(0);
-        });
-      }
-    );
-  });
+  try {
+    await fastify.ready();
+
+    const { payload } = await fastify.inject({
+      method: "GET",
+      url: "/"
+    });
+
+    const [fetchedRow] = JSON.parse(payload).rows;
+    test.strictEqual(fetchedRow["level description"], "Medium");
+    test.strictEqual(fetchedRow.location, "athens");
+    test.strictEqual(fetchedRow.water_level, 2.4324);
+  } catch (e) {
+    test.error(e);
+  }
 });

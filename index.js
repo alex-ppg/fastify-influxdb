@@ -15,7 +15,7 @@ async function influxConnector(
     password
   }
 ) {
-  const connectionOptions = { database, port, schema };
+  const connectionOptions = { database, port };
 
   if (hosts === undefined) connectionOptions.host = host;
   else connectionOptions.hosts = hosts;
@@ -26,7 +26,7 @@ async function influxConnector(
   }
 
   if (schema !== undefined) {
-    schema.map(schema => {
+    connectionOptions.schema = schema.map(schema => {
       Object.keys(schema.fields).forEach(
         field => (schema.fields[field] = Influx.FieldType[schema.fields[field]])
       );
@@ -35,6 +35,14 @@ async function influxConnector(
   }
 
   const influx = new Influx.InfluxDB(connectionOptions);
+
+  if (database !== undefined) {
+    const names = await influx.getDatabaseNames();
+
+    if (!names.includes(database)) {
+      await influx.createDatabase(database);
+    }
+  }
 
   Influx.instance = influx;
   delete Influx.InfluxDB;
